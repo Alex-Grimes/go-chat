@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
+	"server/db"
 )
 
 func main() {
-	_, err := db.newDatabase()
+	_, err := db.NewDatabase()
 	if err != nil {
 		log.Fatalf("could not init database connection: %s", err)
 	}

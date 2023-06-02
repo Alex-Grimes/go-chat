@@ -2,13 +2,15 @@ package db
 
 import (
 	"database/sql"
+
+	_ "github.com/lib/pq"
 )
 
 type Database struct {
 	db *sql.DB
 }
 
-func newDatabase() (*Database, error) {
+func NewDatabase() (*Database, error) {
 	db, err := sql.Open("postgres", "postgressql://root:password@localhost:5433/go-chat?sslmode=disable")
 
 	if err != nil {
