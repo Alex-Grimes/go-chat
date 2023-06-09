@@ -18,5 +18,5 @@ func NewService(repository Repository) Service {
 }
 
 func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUserReq, error) {
-
+	return nil, nil
 }
