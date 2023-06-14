@@ -2,6 +2,8 @@ package user
 
 import (
 	"context"
+	"server/util"
+	"strconv"
 	"time"
 )
 
@@ -17,6 +19,30 @@ func NewService(repository Repository) Service {
 	}
 }
 
-func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUserReq, error) {
-	return nil, nil
+func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	hashedPassword, err := util.HashPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	user := &User{
+		Username: req.Username,
+		Password: hashedPassword,
+		Email:    req.Email,
+	}
+
+	r, err := s.Repository.CreateUser(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &CreateUserRes{
+		ID:       strconv.Itoa(int(r.ID)),
+		Username: r.Username,
+		Email:    r.Email,
+	}
+	return res, nil
 }

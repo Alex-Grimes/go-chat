@@ -16,7 +16,7 @@ type CreateUserReq struct {
 }
 
 type CreateUserRes struct {
-	ID       int64  `json:"id" db:"id"`
+	ID       string `json:"id" db:"id"`
 	Username string `json:"username" db:"username"`
 	Email    string `json:"email" db:"email"`
 }
@@ -25,4 +25,6 @@ type Repository interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
 }
 
-type Service interface{}
+type Service interface {
+	CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error)
+}
